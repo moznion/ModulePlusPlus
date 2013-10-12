@@ -10,7 +10,6 @@ use Amon2::Lite;
 use FindBin;
 use Furl;
 use JSON;
-use DBIx::Sunny;
 
 our $VERSION = '0.01';
 
@@ -96,8 +95,16 @@ post '/find' => sub {
     my $c = shift;
 
     my $module_name = $c->req->param('module_name');
-    my $users = join(',', @{ModulePlusPlus::fetch_users($c, $module_name)});
-    my $res_url = 'foobar';
+
+    my @all_users = @{ModulePlusPlus::fetch_users($c, $module_name)};
+    my @users_exclude_anonymous = grep { $_ ne '---' } @all_users;
+
+    my $num_of_anonymous = scalar @all_users - scalar @users_exclude_anonymous;
+    @users_exclude_anonymous = sort { $a cmp $b } @users_exclude_anonymous;
+
+    my $users = join(',', @users_exclude_anonymous);
+    $users .= ",And $num_of_anonymous anonymous users";
+
     return $c->create_response(
         200,
         [

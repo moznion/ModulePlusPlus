@@ -10,12 +10,24 @@ use Amon2::Lite;
 use FindBin;
 use Furl;
 use JSON;
+use DBIx::Sunny;
 
 our $VERSION = '0.01';
 
-# put your configuration here
+__PACKAGE__->load_plugins('DBI');
+
 sub config {
     my $c = shift;
+    +{
+        'DBI' => [
+            "dbi:mysql:database=modulePlusPlus",
+            'root',
+            $ENV{MYSQL_ROOT_PASS} || '',
+            +{
+                mysql_enable_utf8 => 1
+            },
+        ],
+    }
 }
 
 {
@@ -28,6 +40,7 @@ sub config {
     };
 
     sub fetch_users {
+        my $c = shift;
         (my $dist = shift) =~ s/::/-/g;
         my $url_get_fav = METACPAN_URL . API_FAV . $dist . '&fields=user&size=' . SIZE;
 
@@ -38,19 +51,39 @@ sub config {
         my $json = JSON->new->utf8;
         my $fav  = $json->decode($res->content);
 
-        my @ids;
+        my @user_names;
         for my $hit (@{ $fav->{hits}{hits} || [] }){
-            my $faved_user_id = $hit->{fields}{user};
-            my $res = $furl->get(METACPAN_URL . API_USER . $faved_user_id);
-            next if !$res->is_success;
+            my $user_hash = $hit->{fields}{user};
 
-            my $user     = $json->decode($res->content);
-            my $pause_id = $user->{hits}{hits}[0]{_source}{pauseid};
+            my $user_name;
+            my $user_name_arrayref = $c->dbh->selectrow_arrayref(
+                "SELECT `user_name` FROM `users` WHERE `user_hash` = ?",
+                {},
+                ($user_hash),
+            );
 
-            $pause_id //= '"Anonymous"';
-            push @ids, $pause_id;
+            if ($user_name_arrayref) {
+                $user_name = $user_name_arrayref->[0];
+            }
+            else {
+                my $res = $furl->get(METACPAN_URL . API_USER . $user_hash);
+                next if !$res->is_success;
+
+                my $user = $json->decode($res->content);
+                $user_name = $user->{hits}{hits}[0]{_source}{pauseid} || '---';
+
+                $c->dbh->insert(
+                    'users',
+                    +{
+                        user_hash => $user_hash,
+                        user_name => $user_name,
+                    },
+                );
+            }
+
+            push @user_names, $user_name;
         }
-        return \@ids;
+        return \@user_names;
     }
 }
 
@@ -63,7 +96,7 @@ post '/find' => sub {
     my $c = shift;
 
     my $module_name = $c->req->param('module_name');
-    my $users = join(',', @{ModulePlusPlus::fetch_users($module_name)});
+    my $users = join(',', @{ModulePlusPlus::fetch_users($c, $module_name)});
     my $res_url = 'foobar';
     return $c->create_response(
         200,

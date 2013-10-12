@@ -2,14 +2,11 @@ use strict;
 use warnings;
 use utf8;
 use File::Spec;
-use File::Basename;
-use lib File::Spec->catdir(dirname(__FILE__), 'extlib', 'lib', 'perl5');
-use lib File::Spec->catdir(dirname(__FILE__), 'lib');
 use Plack::Builder;
 use Amon2::Lite;
 use FindBin;
-use Furl;
-use JSON;
+use lib File::Spec->catdir($FindBin::Bin, 'lib');
+use App::ModulePlusPlus;
 
 our $VERSION = '0.01';
 
@@ -29,63 +26,6 @@ sub config {
     }
 }
 
-{
-    package ModulePlusPlus;
-    use constant {
-        METACPAN_URL => 'http://api.metacpan.org',
-        API_FAV      => '/v0/favorite/_search?q=distribution:',
-        API_USER     => '/v0/author/_search?q=user:',
-        SIZE         => 1000,
-    };
-
-    sub fetch_users {
-        my $c = shift;
-        (my $dist = shift) =~ s/::/-/g;
-        my $url_get_fav = METACPAN_URL . API_FAV . $dist . '&fields=user&size=' . SIZE;
-
-        my $furl = Furl->new();
-        my $res  = $furl->get($url_get_fav);
-        die if !$res->is_success;
-
-        my $json = JSON->new->utf8;
-        my $fav  = $json->decode($res->content);
-
-        my @user_names;
-        for my $hit (@{ $fav->{hits}{hits} || [] }){
-            my $user_hash = $hit->{fields}{user};
-
-            my $user_name;
-            my $user_name_arrayref = $c->dbh->selectrow_arrayref(
-                "SELECT `user_name` FROM `users` WHERE `user_hash` = ?",
-                {},
-                ($user_hash),
-            );
-
-            if ($user_name_arrayref) {
-                $user_name = $user_name_arrayref->[0];
-            }
-            else {
-                my $res = $furl->get(METACPAN_URL . API_USER . $user_hash);
-                next if !$res->is_success;
-
-                my $user = $json->decode($res->content);
-                $user_name = $user->{hits}{hits}[0]{_source}{pauseid} || '---';
-
-                $c->dbh->insert(
-                    'users',
-                    +{
-                        user_hash => $user_hash,
-                        user_name => $user_name,
-                    },
-                );
-            }
-
-            push @user_names, $user_name;
-        }
-        return \@user_names;
-    }
-}
-
 get '/' => sub {
     my $c = shift;
     return $c->render('index.tt');
@@ -96,14 +36,14 @@ post '/find' => sub {
 
     my $module_name = $c->req->param('module_name');
 
-    my @all_users = @{ModulePlusPlus::fetch_users($c, $module_name)};
+    my @all_users = @{App::ModulePlusPlus::fetch_users($c, $module_name)};
     my @users_exclude_anonymous = grep { $_ ne '---' } @all_users;
 
     my $num_of_anonymous = scalar @all_users - scalar @users_exclude_anonymous;
     @users_exclude_anonymous = sort { $a cmp $b } @users_exclude_anonymous;
 
     my $users = join(',', @users_exclude_anonymous);
-    $users .= ",And $num_of_anonymous anonymous users";
+    $users .= ",and $num_of_anonymous anonymous users";
 
     return $c->create_response(
         200,

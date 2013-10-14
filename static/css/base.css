@@ -174,7 +174,6 @@ html, body {
 }
 
 body {
-  font-family: "Rock Salt", cursive;
   font-size: 62.5%;
   background-color: #f6f6f6;
   color: #333333;
@@ -189,6 +188,7 @@ header {
   border-top: 12px solid #b09966;
 }
 header h1 {
+  font-family: "Rock Salt", cursive;
   text-align: center;
   font-size: 6em;
   text-shadow: 1px 1px rgba(255, 255, 255, 0.7);
@@ -252,6 +252,7 @@ section form#ModuleNameForm #SubmitBtn i.icon-search {
   color: white;
 }
 section #Loading {
+  font-family: "Rock Salt", cursive;
   text-align: center;
   font-size: 2em;
 }

@@ -87,7 +87,7 @@ __DATA__
             <div id="Loading"></div>
             <ul id="UserList"></ul>
         </section>
-        <footer>Powered by <a href="http://amon.64p.org">Amon2::Lite</a></footer>
     </div>
+    <footer>Powered by <a href="http://amon.64p.org">Amon2::Lite</a></footer>
 </body>
 </html>

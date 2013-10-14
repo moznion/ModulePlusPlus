@@ -179,10 +179,9 @@ body {
   background-color: #f6f6f6;
   color: #333333;
 }
-
-#container {
-  position: relative;
-  height: 100%;
+body .container {
+  min-height: 100%;
+  margin-bottom: -30px;
 }
 
 header {
@@ -198,6 +197,7 @@ header h1 {
 section {
   width: 560px;
   margin: 0 auto;
+  padding-bottom: 50px;
 }
 section form#ModuleNameForm {
   margin-bottom: 20px;
@@ -258,7 +258,7 @@ section #Loading {
 section #UserList {
   list-style: none;
   font-size: 1.6em;
-  overflow: scroll;
+  padding: 0 5px;
 }
 section #UserList .user {
   float: left;
@@ -278,8 +278,6 @@ section #anonymouse {
 footer {
   text-align: right;
   background-color: #b09966;
-  position: absolute;
-  bottom: 0;
   width: 100%;
   line-height: 30px;
   color: white;

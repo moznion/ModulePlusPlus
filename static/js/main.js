@@ -1,6 +1,7 @@
 $(function () {
     $('#ModuleNameForm').submit(function () {
         $('#UserList').hide();
+        $('.user').remove();
         $('#Loading').text('Now Loading').show();
 
         var self = this;
@@ -28,7 +29,7 @@ $(function () {
         prepareUsesList().done(function (res) {
             var users = res.split(',');
             _.each(users, function (user) {
-                $('#UserList').append("<li>" + _.escape(user) + "</li>");
+                $('#UserList').append("<li class='user'>" + _.escape(user) + "</li>");
             });
             $('#UserList').show();
         }).fail(function () {

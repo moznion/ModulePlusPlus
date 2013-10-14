@@ -43,7 +43,8 @@ post '/find' => sub {
     @users_exclude_anonymous = sort { $a cmp $b } @users_exclude_anonymous;
 
     my $users = join(',', @users_exclude_anonymous);
-    $users .= ",and $num_of_anonymous anonymous users";
+    $users .= ',' if $users;
+    $users .= "and $num_of_anonymous anonymous users";
 
     return $c->create_response(
         200,
@@ -69,8 +70,8 @@ __DATA__
     <met charst="utf-8">
     <title>Module++</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript" src="[% uri_for('/vendor/jquery-2.0.3.min.js') %]"></script>
-    <script type="text/javascript" src="[% uri_for('/vendor/underscore-min.js') %]"></script>
+    <script type="text/javascript" src="[% uri_for('/static/js/jquery-2.0.3.min.js') %]"></script>
+    <script type="text/javascript" src="[% uri_for('/static/js/underscore-min.js') %]"></script>
     <script type="text/javascript" src="[% uri_for('/static/js/main.js') %]"></script>
     <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
 </head>

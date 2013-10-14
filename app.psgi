@@ -67,21 +67,22 @@ __DATA__
 <!doctype html>
 <html>
 <head>
-    <met charst="utf-8">
+    <meta charst="utf-8">
     <title>Module++</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="[% uri_for('/static/js/jquery-2.0.3.min.js') %]"></script>
     <script type="text/javascript" src="[% uri_for('/static/js/underscore-min.js') %]"></script>
     <script type="text/javascript" src="[% uri_for('/static/js/main.js') %]"></script>
-    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
+    <link rel="stylesheet" href="[% uri_for('/static/css/base.css') %]">
 </head>
 <body>
     <div class="container">
         <header><h1>Module++</h1></header>
         <section>
             <form method="post" action="/find" id="ModuleNameForm">
-                <input type="text" name="module_name" size="20" required />
-                <input type="submit" value="Find" class="btn primary" />
+                <div id="ModuleName">
+                    <input type="text" name="module_name" size="20" required />
+                </div><div id="SubmitBtn"><i class="icon-search"></i></div>
             </form>
             <div id="Loading"></div>
             <ul id="UserList"></ul>

@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Rock+Salt);
+@import url(http://fonts.googleapis.com/css?family=Varela|Telex|Rock+Salt);
 /* FONT PATH
  * -------------------------- */
 @font-face {
@@ -174,6 +174,7 @@ html, body {
 }
 
 body {
+  font-family: "Varela", "Telex", sans-serif;
   font-size: 62.5%;
   background-color: #f6f6f6;
   color: #333333;
@@ -191,7 +192,7 @@ header h1 {
   font-family: "Rock Salt", cursive;
   text-align: center;
   font-size: 6em;
-  text-shadow: 1px 1px rgba(255, 255, 255, 0.7);
+  text-shadow: 2px 2px rgba(255, 255, 255, 0.7);
 }
 
 section {
@@ -217,13 +218,15 @@ section form#ModuleNameForm #ModuleName {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  overflow: hidden;
 }
 section form#ModuleNameForm #ModuleName input {
   border: none;
   width: 100%;
-  font-size: 4em;
+  font-size: 2.8em;
   outline: none;
   background-color: transparent;
+  font-family: "Rock Salt", cursive;
 }
 section form#ModuleNameForm #SubmitBtn {
   display: inline-block;
@@ -243,6 +246,7 @@ section form#ModuleNameForm #SubmitBtn {
   -o-border-radius: 0 4px 4px 0;
   border-radius: 0 4px 4px 0;
   cursor: pointer;
+  overflow: hidden;
 }
 section form#ModuleNameForm #SubmitBtn:hover {
   background-color: #eeeeee;
@@ -257,21 +261,34 @@ section #Loading {
   font-size: 2em;
 }
 section #UserList {
+  display: none;
   list-style: none;
-  font-size: 1.6em;
-  padding: 0 5px;
+  font-size: 2em;
+  padding: 10px 20px;
+  background-color: rgba(255, 255, 255, 0.5);
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
+  border-radius: 6px;
+  overflow: hidden;
+  *zoom: 1;
+  border: 2px solid white;
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 section #UserList .user {
   float: left;
-  padding-right: 2em;
-  width: 9em;
-  line-height: 2.4;
+  width: 172px;
+  line-height: 2;
   text-overflow: ellipsis;
   overflow: hidden;
 }
 section #anonymouse {
+  font-family: "Rock Salt", cursive;
   clear: both;
-  font-size: 1.4em;
+  font-size: 1.6em;
   text-align: right;
   margin-top: 1em;
 }

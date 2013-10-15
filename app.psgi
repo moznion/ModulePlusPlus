@@ -50,13 +50,17 @@ post '/find' => sub {
         );
     }
 
-    my @users_exclude_anonymous = grep { $_ ne '---' } @$all_users;
+    my $users = '';
+    my $num_of_anonymous = 0;
+    for my $user (@$all_users) {
+      if ($user->{name} eq '---') {
+        $num_of_anonymous++;
+        next;
+      }
+      $users .= $user->{name} . ',';
+      $users .= $user->{icon_url} . ',';
+    }
 
-    my $num_of_anonymous = scalar @$all_users - scalar @users_exclude_anonymous;
-    @users_exclude_anonymous = sort { $a cmp $b } @users_exclude_anonymous;
-
-    my $users = join(',', @users_exclude_anonymous);
-    $users .= ',' if $users;
     $users .= "and $num_of_anonymous anonymous users";
 
     return $c->create_response(

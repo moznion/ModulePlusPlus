@@ -8,3 +8,10 @@ CREATE TABLE IF NOT EXISTS `users` (
     PRIMARY KEY (`id`),
     UNIQUE (`user_hash`)
 );
+
+CREATE TABLE IF NOT EXISTS `distributions` (
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(100) NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE (`name`)
+);

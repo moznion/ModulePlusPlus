@@ -18,9 +18,26 @@ sub fetch_users {
     (my $dist = shift) =~ s/::/-/g;
 
     my $furl = Furl->new();
-    my $url_get_module_exist = METACPAN_URL . API_MODULE . $dist;
-    my $does_exist = $furl->get($url_get_module_exist);
-    return if ($does_exist->code == 404);
+
+    my $dist_arrayref = $c->dbh->selectrow_arrayref(
+        "SELECT `id` FROM `distributions` WHERE `name` = ?",
+        {},
+        ($dist),
+    );
+
+    unless (defined($dist_arrayref)) {
+        my $url_get_module_exist = METACPAN_URL . API_MODULE . $dist;
+        if ($furl->get($url_get_module_exist)->code == 404) {
+            return;
+        }
+
+        $c->dbh->insert(
+            'distributions',
+            +{
+                name => $dist,
+            },
+        );
+    }
 
     my $url_get_fav = METACPAN_URL . API_FAV . $dist . '&fields=user&size=' . SIZE;
 

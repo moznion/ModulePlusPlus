@@ -81,7 +81,7 @@ __DATA__
         <section>
             <form method="post" action="/find" id="ModuleNameForm">
                 <div id="ModuleName">
-                    <input type="text" name="module_name" size="20" required />
+                    <input type="text" name="module_name" size="20" placeholder="Moose" required />
                 </div><div id="SubmitBtn"><i class="icon-search"></i></div>
             </form>
             <div id="Loading"></div>

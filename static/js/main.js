@@ -46,7 +46,6 @@ $(function () {
 
         }).fail(function (err) {
             if (err.status === 404) {
-                console.log(err);
                 var paragraph = $("#MoreInfo");
                 paragraph = $("<p />").attr("id", "MoreInfo");
                 $("#UserList").after(paragraph);

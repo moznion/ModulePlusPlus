@@ -223,10 +223,10 @@ section form#ModuleNameForm #ModuleName {
 section form#ModuleNameForm #ModuleName input {
   border: none;
   width: 100%;
-  font-size: 2.8em;
+  font-size: 3.6em;
   outline: none;
   background-color: transparent;
-  font-family: "Rock Salt", cursive;
+  font-family: "Varela", "Telex", sans-serif;
 }
 section form#ModuleNameForm #SubmitBtn {
   display: inline-block;

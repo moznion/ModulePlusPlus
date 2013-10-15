@@ -1,0 +1,118 @@
+@import "compass"
+
+@import "variables"
+@import "mixins"
+@import "path"
+@import "core"
+
+@import "http://fonts.googleapis.com/css?family=Varela|Telex|Rock+Salt"
+
+$basecolor: #b09966
+.icon-search:before
+  content: $search
+
+*
+  margin: 0
+  padding: 0
+
+html, body
+  height: 100%
+
+body
+  font-family: 'Varela','Telex', sans-serif
+  font-size: 62.5%
+  background-color: #f6f6f6
+  color: #333
+  .container 
+    min-height: 100%
+    margin-bottom: -30px
+
+header
+  padding: 20px 0
+  border-top: 12px solid $basecolor
+  h1
+    font-family: 'Rock Salt', cursive
+    text-align: center
+    font-size: 6em
+    +text-shadow( 2px 2px rgba(255, 255, 255, 0.7))
+
+section
+  width: 560px
+  margin: 0 auto 
+  padding-bottom: 50px
+  form#ModuleNameForm
+    margin-bottom: 20px
+    #ModuleName
+      display: inline-block
+      border: 1px solid #d4d4d4
+      +border-radius(4px 0 0 4px)
+      width: 500px
+      height: 60px
+      padding: 5px 10px
+      background-color: #FFF
+      +box-sizing(border-box)
+      overflow: hidden
+      vertical-align: middle
+      input
+        border: none
+        width: 100%
+        font-size: 3.6em
+        outline: none
+        background-color: transparent
+    #SubmitBtn
+      vertical-align: middle
+      display: inline-block
+      background-color: $basecolor
+      width: 60px
+      height: 60px
+      +box-sizing(border-box)
+      line-height: 60px
+      text-align: center
+      border: 1px solid #d4d4d4
+      border-left: none
+      +border-radius( 0 4px 4px 0)
+      cursor: pointer
+      overflow: hidden
+      &:hover
+        background-color: #eee
+      i.icon-search
+        font-size: 4em
+        color: #fff
+
+  #Loading
+    font-family: 'Rock Salt', cursive
+    text-align: center
+    font-size: 2em
+  #UserList
+    display: none
+    list-style: none
+    font-size: 2.0em
+    padding: 10px 20px
+    background-color: rgba(255, 255, 255, 0.5)
+    +border-radius(6px)
+    +clearfix
+    border: 2px solid #fff
+    +box-shadow( 0 0 5px rgba(0, 0, 0, 0.2))
+    .user
+      float: left
+      width: (516 / 3) + px
+      line-height: 2.0
+      text-overflow: ellipsis
+      overflow: hidden
+  #anonymouse
+    clear: both
+    font-size: 1.6em
+    text-align: right
+    margin-top: 1em
+
+footer
+  font-family: 'Rock Salt', cursive
+  text-align: right
+  background-color: $basecolor
+  width: 100%
+  line-height: 30px
+  color: #fff
+  padding: 0 1em
+  +box-sizing(border-box)
+  a
+    color: #fff

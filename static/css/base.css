@@ -227,7 +227,6 @@ section form#ModuleNameForm #ModuleName input {
   font-size: 3.6em;
   outline: none;
   background-color: transparent;
-  font-family: "Varela", "Telex", sans-serif;
 }
 section form#ModuleNameForm #SubmitBtn {
   vertical-align: middle;
@@ -288,7 +287,6 @@ section #UserList .user {
   overflow: hidden;
 }
 section #anonymouse {
-  font-family: "Rock Salt", cursive;
   clear: both;
   font-size: 1.6em;
   text-align: right;

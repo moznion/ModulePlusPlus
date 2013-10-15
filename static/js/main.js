@@ -47,11 +47,13 @@ $(function () {
             paragraph.text(anonymouses);
 
         }).fail(function (err) {
+            var paragraph = $("#MoreInfo");
+            paragraph = $("<p />").attr("id", "MoreInfo");
+            $("#UserList").after(paragraph);
             if (err.status === 404) {
-                var paragraph = $("#MoreInfo");
-                paragraph = $("<p />").attr("id", "MoreInfo");
-                $("#UserList").after(paragraph);
                 paragraph.text(err.responseText);
+            } else {
+                paragraph.text('Something wrong...');
             }
         }).always(function () {
             clearInterval(loadingNotifier);

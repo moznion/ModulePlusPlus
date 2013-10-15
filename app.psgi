@@ -82,7 +82,7 @@ __DATA__
             <form method="post" action="/find" id="ModuleNameForm">
                 <div id="ModuleName">
                     <input type="text" name="module_name" size="20" placeholder="Moose" required />
-                </div><div id="SubmitBtn"><i class="icon-search"></i></div>
+                </div><button type="submit" id="SubmitBtn"><i class="icon-search"></i></button>
             </form>
             <div id="Loading"></div>
             <ul id="UserList"></ul>

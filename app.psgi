@@ -49,7 +49,7 @@ post '/find' => sub {
     return $c->create_response(
         200,
         [
-            'Content-Type'   => 'text/plain; charset=utf8',
+            'Content-Type'   => 'text/plain; charset=UTF-8',
             'Content-Length' => length($users)
         ],
         $users

@@ -16,8 +16,8 @@ $(function () {
                 success: function (res) {
                     dfd.resolve(res);
                 },
-                error: function () {
-                    dfd.reject();
+                error: function (err) {
+                    dfd.reject(err);
                 }
             });
             return dfd.promise();
@@ -38,14 +38,20 @@ $(function () {
 
             var anonymouses = splitres[splitres.length - 1];
             var paragraph = $("#anonymouse");
-            if( paragraph.length == 0){
-              paragraph = $("<p />").attr("id", "anonymouse");
-              $("#UserList").after(paragraph);
+            if (paragraph.length == 0) {
+                paragraph = $("<p />").attr("id", "anonymouse");
+                $("#UserList").after(paragraph);
             }
             paragraph.text(anonymouses);
 
-        }).fail(function () {
-            alert("ERROR");
+        }).fail(function (err) {
+            if (err.status === 404) {
+                console.log(err);
+                var paragraph = $("#anonymouse");
+                paragraph = $("<p />").attr("id", "anonymouse");
+                $("#UserList").after(paragraph);
+                paragraph.text(err.responseText);
+            }
         }).always(function () {
             clearInterval(loadingNotifier);
             $('#Loading').hide();

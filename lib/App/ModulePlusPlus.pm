@@ -7,6 +7,7 @@ use JSON;
 
 use constant {
     METACPAN_URL => 'http://api.metacpan.org',
+    API_MODULE   => '/v0/distribution/',
     API_FAV      => '/v0/favorite/_search?q=distribution:',
     API_USER     => '/v0/author/_search?q=user:',
     SIZE         => 1000,
@@ -16,9 +17,13 @@ sub fetch_users {
     my $c = shift;
     (my $dist = shift) =~ s/::/-/g;
 
+    my $furl = Furl->new();
+    my $url_get_module_exist = METACPAN_URL . API_MODULE . $dist;
+    my $does_exist = $furl->get($url_get_module_exist);
+    return if ($does_exist->code == 404);
+
     my $url_get_fav = METACPAN_URL . API_FAV . $dist . '&fields=user&size=' . SIZE;
 
-    my $furl = Furl->new();
     my $res  = $furl->get($url_get_fav);
     die if !$res->is_success;
 
@@ -57,7 +62,7 @@ sub fetch_users {
 
         push @user_names, $user_name;
     }
-    return \@user_names;
+    return \@user_names, 1;
 }
 
 1;

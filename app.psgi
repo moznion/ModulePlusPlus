@@ -36,10 +36,23 @@ post '/find' => sub {
 
     my $module_name = $c->req->param('module_name');
 
-    my @all_users = @{App::ModulePlusPlus::fetch_users($c, $module_name)};
-    my @users_exclude_anonymous = grep { $_ ne '---' } @all_users;
+    my ($all_users, $does_exist) = App::ModulePlusPlus::fetch_users($c, $module_name);
 
-    my $num_of_anonymous = scalar @all_users - scalar @users_exclude_anonymous;
+    unless ($does_exist) {
+        my $not_found = "$module_name does not exist.";
+        return $c->create_response(
+            404,
+            [
+                'Content-Type'   => 'text/plain; charset=UTF-8',
+                'Content-Length' => length($not_found),
+            ],
+            $not_found,
+        );
+    }
+
+    my @users_exclude_anonymous = grep { $_ ne '---' } @$all_users;
+
+    my $num_of_anonymous = scalar @$all_users - scalar @users_exclude_anonymous;
     @users_exclude_anonymous = sort { $a cmp $b } @users_exclude_anonymous;
 
     my $users = join(',', @users_exclude_anonymous);

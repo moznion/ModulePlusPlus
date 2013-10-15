@@ -219,6 +219,7 @@ section form#ModuleNameForm #ModuleName {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   overflow: hidden;
+  vertical-align: middle;
 }
 section form#ModuleNameForm #ModuleName input {
   border: none;
@@ -229,6 +230,7 @@ section form#ModuleNameForm #ModuleName input {
   font-family: "Varela", "Telex", sans-serif;
 }
 section form#ModuleNameForm #SubmitBtn {
+  vertical-align: middle;
   display: inline-block;
   background-color: #b09966;
   width: 60px;

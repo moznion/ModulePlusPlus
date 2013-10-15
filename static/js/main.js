@@ -1,8 +1,4 @@
 $(function () {
-    $('#SubmitBtn').on("click", function () {
-      $('#ModuleNameForm').trigger("submit");
-    });
-
     $('#ModuleNameForm').submit(function () {
         $('#UserList').hide();
         $('#anonymouse').empty();

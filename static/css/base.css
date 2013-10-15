@@ -286,7 +286,7 @@ section #UserList .user {
   text-overflow: ellipsis;
   overflow: hidden;
 }
-section #anonymouse {
+section #MoreInfo {
   clear: both;
   font-size: 1.6em;
   text-align: right;

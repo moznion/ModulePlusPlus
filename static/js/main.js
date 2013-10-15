@@ -1,7 +1,7 @@
 $(function () {
     $('#ModuleNameForm').submit(function () {
         $('#UserList').hide();
-        $('#anonymouse').empty();
+        $('#MoreInfo').empty();
         $('.user').remove();
         $('#Loading').text('Now Loading').show();
 
@@ -37,9 +37,9 @@ $(function () {
             $('#UserList').show();
 
             var anonymouses = splitres[splitres.length - 1];
-            var paragraph = $("#anonymouse");
+            var paragraph = $("#MoreInfo");
             if (paragraph.length == 0) {
-                paragraph = $("<p />").attr("id", "anonymouse");
+                paragraph = $("<p />").attr("id", "MoreInfo");
                 $("#UserList").after(paragraph);
             }
             paragraph.text(anonymouses);
@@ -47,8 +47,8 @@ $(function () {
         }).fail(function (err) {
             if (err.status === 404) {
                 console.log(err);
-                var paragraph = $("#anonymouse");
-                paragraph = $("<p />").attr("id", "anonymouse");
+                var paragraph = $("#MoreInfo");
+                paragraph = $("<p />").attr("id", "MoreInfo");
                 $("#UserList").after(paragraph);
                 paragraph.text(err.responseText);
             }

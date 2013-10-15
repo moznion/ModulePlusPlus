@@ -57,7 +57,7 @@ post '/find' => sub {
 };
 
 builder {
-    enable "Plack::Middleware::Static",  path => qr{^/(?:static|vendor)}, root => "$FindBin::Bin";
+    enable "Plack::Middleware::Static",  path => qr{^/static}, root => "$FindBin::Bin";
     __PACKAGE__->to_app();
 };
 

@@ -286,6 +286,9 @@ section #UserList .user {
   text-overflow: ellipsis;
   overflow: hidden;
 }
+section #UserList .user img {
+  margin-right: 4px;
+}
 section #MoreInfo {
   clear: both;
   font-size: 1.6em;

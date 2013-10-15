@@ -7,6 +7,10 @@ $(function () {
 
         var self = this;
 
+        var iconSizeModifyFilter = function(url, size) {
+            return url.replace(/\b(s|size)=(\d+)\b/, '$1=' + size);
+        };
+
         var prepareUsesList = function () {
             var dfd = $.Deferred();
             $.ajax({
@@ -31,9 +35,17 @@ $(function () {
         prepareUsesList().done(function (res) {
             var splitres = res.split(',');
             var users = splitres.slice(0, splitres.length - 1);
-            _.each(users, function (user) {
-                $('#UserList').append("<li class='user'>" + _.escape(user) + "</li>");
-            });
+            for (var i = 0; i < users.length; i += 2) {
+                var name     = users[i];
+                var iconURL  = iconSizeModifyFilter(users[i + 1], 32);
+                var $li = $('<li/>').addClass('user');
+                var $icon = $('<img/>').attr({'src': iconURL, 'alt': 'icon'});
+                $li.append($icon);
+                $li.append(name);
+
+                $('#UserList').append($li);
+            }
+
             if (users.length > 0) {
                 $('#UserList').show();
             }

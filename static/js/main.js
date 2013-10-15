@@ -34,7 +34,9 @@ $(function () {
             _.each(users, function (user) {
                 $('#UserList').append("<li class='user'>" + _.escape(user) + "</li>");
             });
-            $('#UserList').show();
+            if (users.length > 0) {
+                $('#UserList').show();
+            }
 
             var anonymouses = splitres[splitres.length - 1];
             var paragraph = $("#MoreInfo");

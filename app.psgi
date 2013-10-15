@@ -69,7 +69,7 @@ __DATA__
 <head>
     <meta charst="utf-8">
     <title>Module++</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5">
     <script type="text/javascript" src="[% uri_for('/static/js/jquery-2.0.3.min.js') %]"></script>
     <script type="text/javascript" src="[% uri_for('/static/js/underscore-min.js') %]"></script>
     <script type="text/javascript" src="[% uri_for('/static/js/main.js') %]"></script>

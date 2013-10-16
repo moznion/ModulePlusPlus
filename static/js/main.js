@@ -42,8 +42,8 @@ $(function () {
                 var $name_as_link = $('<a/>').attr({'href': author_url + name, 'target': '_blank'});
                 $name_as_link.append(name);
 
-                var iconURL = iconSizeModifyFilter(users[i + 1], 16);
-                var $icon   = $('<img/>').attr({'src': iconURL, 'alt': 'icon'});
+                var icon_url = iconSizeModifyFilter(users[i + 1], 16);
+                var $icon = $('<img/>').attr({'src': icon_url, 'alt': 'icon'});
                 var $icon_as_link = $('<a/>').attr({'href': author_url + name, 'target': '_blank'});
                 $icon_as_link.append($icon)
 

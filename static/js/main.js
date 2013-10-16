@@ -1,4 +1,6 @@
 $(function () {
+    var author_url = 'https://metacpan.org/author/';
+
     $('#ModuleNameForm').submit(function () {
         $('#UserList').hide();
         $('#MoreInfo').empty();
@@ -36,12 +38,16 @@ $(function () {
             var splitres = res.split(',');
             var users = splitres.slice(0, splitres.length - 1);
             for (var i = 0; i < users.length; i += 2) {
-                var name     = users[i];
-                var iconURL  = iconSizeModifyFilter(users[i + 1], 32);
+                var name    = users[i];
+                var $link   = $('<a/>').attr({'href': author_url + name, 'target': '_blank'});
+                $link.append(name);
+
+                var iconURL = iconSizeModifyFilter(users[i + 1], 32);
                 var $li = $('<li/>').addClass('user');
                 var $icon = $('<img/>').attr({'src': iconURL, 'alt': 'icon'});
+
                 $li.append($icon);
-                $li.append(name);
+                $li.append($link);
 
                 $('#UserList').append($li);
             }

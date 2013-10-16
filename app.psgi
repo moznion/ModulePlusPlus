@@ -52,7 +52,7 @@ post '/find' => sub {
 
     my $users = '';
     my $num_of_anonymous = 0;
-    for my $user (@$all_users) {
+    for my $user (sort {$a->{name} cmp $b->{name}} @$all_users) {
       if ($user->{name} eq '---') {
         $num_of_anonymous++;
         next;

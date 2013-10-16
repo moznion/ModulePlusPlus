@@ -10,9 +10,10 @@ CREATE TABLE IF NOT EXISTS `users` (
     UNIQUE (`user_hash`)
 );
 
-CREATE TABLE IF NOT EXISTS `distributions` (
+CREATE TABLE IF NOT EXISTS `modules` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(100) BINARY NOT NULL,
+    `module_name` VARCHAR(100) BINARY NOT NULL,
+    `dist_name` VARCHAR(100) BINARY NOT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE (`name`)
+    UNIQUE (`module_name`)
 );

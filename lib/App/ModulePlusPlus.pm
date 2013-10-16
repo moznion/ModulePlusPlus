@@ -1,4 +1,5 @@
 package App::ModulePlusPlus;
+use 5.014001;
 use strict;
 use warnings;
 use utf8;
@@ -7,7 +8,7 @@ use JSON;
 
 use constant {
     METACPAN_URL  => 'http://api.metacpan.org',
-    API_MODULE    => '/v0/distribution/',
+    API_MODULE    => '/v0/module/',
     API_FAV       => '/v0/favorite/_search?q=distribution:',
     API_USER      => '/v0/author/_search?q=user:',
     SIZE          => 1000,
@@ -16,26 +17,33 @@ use constant {
 
 sub fetch_users {
     my $c = shift;
-    (my $dist = shift) =~ s/::/-/g;
+    (my $module_name = shift) =~ s/::/-/g;
 
     my $furl = Furl->new();
+    my $json = JSON->new->utf8;
 
     my $dist_arrayref = $c->dbh->selectrow_arrayref(
-        "SELECT `id` FROM `distributions` WHERE `name` = ?",
+        "SELECT `dist_name` FROM `modules` WHERE `module_name` = ?",
         {},
-        ($dist),
+        ($module_name),
     );
 
-    unless (defined($dist_arrayref)) {
-        my $url_get_module_exist = METACPAN_URL . API_MODULE . $dist;
-        if ($furl->get($url_get_module_exist)->code == 404) {
+    my $dist = $dist_arrayref->[0];
+
+    unless (defined($dist)) {
+        my $url_get_module_info = METACPAN_URL . API_MODULE . ($module_name =~ s/-/::/r);
+        my $module_info = $furl->get($url_get_module_info);
+
+        if ($module_info->code == 404) {
             return;
         }
 
+        $dist = $json->decode($module_info->content)->{distribution};
         $c->dbh->insert(
-            'distributions',
+            'modules',
             +{
-                name => $dist,
+                module_name => $module_name,
+                dist_name   => $dist,
             },
         );
     }
@@ -45,7 +53,6 @@ sub fetch_users {
     my $res  = $furl->get($url_get_fav);
     die if !$res->is_success;
 
-    my $json = JSON->new->utf8;
     my $fav  = $json->decode($res->content);
 
     my @user_profiles;

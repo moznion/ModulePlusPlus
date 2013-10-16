@@ -31,7 +31,7 @@ sub fetch_users {
     my $dist = $dist_arrayref->[0];
 
     unless (defined($dist)) {
-        my $url_get_module_info = METACPAN_URL . API_MODULE . ($module_name =~ s/-/::/r);
+        my $url_get_module_info = METACPAN_URL . API_MODULE . ($module_name =~ s/-/::/gr);
         my $module_info = $furl->get($url_get_module_info);
 
         if ($module_info->code == 404) {

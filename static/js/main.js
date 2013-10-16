@@ -38,16 +38,18 @@ $(function () {
             var splitres = res.split(',');
             var users = splitres.slice(0, splitres.length - 1);
             for (var i = 0; i < users.length; i += 2) {
-                var name    = users[i];
-                var $link   = $('<a/>').attr({'href': author_url + name, 'target': '_blank'});
-                $link.append(name);
+                var name = users[i];
+                var $name_as_link = $('<a/>').attr({'href': author_url + name, 'target': '_blank'});
+                $name_as_link.append(name);
 
                 var iconURL = iconSizeModifyFilter(users[i + 1], 32);
-                var $li = $('<li/>').addClass('user');
-                var $icon = $('<img/>').attr({'src': iconURL, 'alt': 'icon'});
+                var $icon   = $('<img/>').attr({'src': iconURL, 'alt': 'icon'});
+                var $icon_as_link = $('<a/>').attr({'href': author_url + name, 'target': '_blank'});
+                $icon_as_link.append($icon)
 
-                $li.append($icon);
-                $li.append($link);
+                var $li = $('<li/>').addClass('user');
+                $li.append($icon_as_link);
+                $li.append($name_as_link);
 
                 $('#UserList').append($li);
             }

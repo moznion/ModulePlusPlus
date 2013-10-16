@@ -287,6 +287,8 @@ section #UserList .user {
   overflow: hidden;
 }
 section #UserList .user img {
+  max-width: 9%;
+  height: auto;
   margin-right: 4px;
 }
 section #MoreInfo {

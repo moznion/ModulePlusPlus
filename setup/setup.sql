@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `user_hash`     VARCHAR(30)  NOT NULL,
     `user_name`     VARCHAR(20)  NOT NULL,
-    `user_icon_url` VARCHAR(128) NOT NULL,
+    `user_icon_url` VARCHAR(300) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE (`user_hash`)
 );

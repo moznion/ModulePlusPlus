@@ -17,14 +17,36 @@ mpp.author_url = 'https://metacpan.org/author/';
 mpp.loadingNotifier = -1;
 
 /**
+ * 主要DOM要素を参照するための変数。
+ * DOM読み込み後、mpp.setCommonDom()で定義する。
+ * 常に$()経由だと重いので。
+ * @property $
+ * @type Object
+ */
+mpp.$ = {};
+
+/**
+ * DOM読み込み後に、各主要DOM要素を静的に参照するための構造体を作成する
+ * @method setCommonDom
+ */
+mpp.setCommonDom = function(){
+  $.extend(mpp.$, {
+    userList: $("#UserList"),
+    moreInfo: $("#MoreInfo"),
+    loading: $("#Loading"),
+    form: $('#ModuleNameForm')
+  });
+}
+
+/**
  * 検索開始時、画面表示をリセットする
  * @method resetView
  */
 mpp.resetView = function(){
-    $('#UserList').hide();
-    $('#MoreInfo').empty();
+    mpp.$.userList.hide();
+    mpp.$.moreInfo.empty();
     $('.user').remove();
-    $('#Loading').text('Now Loading').show();
+    mpp.$.loading.text('Now Loading').show();
 };
 
 /**
@@ -44,7 +66,7 @@ mpp.iconSizeModifyFilter = function(url, size) {
  * @method noticeLoading
  */
 mpp.noticeLoading = function () {
-    $('#Loading').text($('#Loading').text() + '.');
+    mpp.$.loading.get(0).innerText += ".";
 };
 
 /**
@@ -93,15 +115,15 @@ mpp.done = function(res){
         $li.append($icon_as_link);
         $li.append($name_as_link);
 
-        $('#UserList').append($li);
+        mpp.$.userList.append($li);
     }
 
     if (users.length > 0) {
-        $('#UserList').show();
+        mpp.$.userList.show();
     }
 
     var anonymouses = splitres[splitres.length - 1];
-    var paragraph = $("#MoreInfo");
+    var paragraph = mpp.$.moreInfo;
     paragraph.text(anonymouses);
 
 };
@@ -113,7 +135,7 @@ mpp.done = function(res){
  * @param {Error} エラーオブジェクト
  */
 mpp.fail = function(err){
-    var paragraph = $("#MoreInfo");
+    var paragraph = mpp.$.moreInfo;
     if (err.status === 404) {
         paragraph.text(err.responseText);
     } else {
@@ -128,7 +150,7 @@ mpp.fail = function(err){
 mpp.always = function(){
     clearInterval(mpp.loadingNotifier);
     mpp.loadingNotifier = -1;
-    $('#Loading').hide();
+    mpp.$.loading.hide();
 };
 
 /**
@@ -144,14 +166,15 @@ mpp.searchModule = function(form){
 };
 
 $(function () {
+    mpp.setCommonDom();
     var hash = location.hash.replace(/^#/, "");
 
     if(hash.length > 0){
-        $("#ModuleNameForm").find("input").val(hash);
-        mpp.searchModule($("#ModuleNameForm"));
+        mpp.$.form.find("input").val(hash);
+        mpp.searchModule(mpp.$.form);
     }
 
-    $('#ModuleNameForm').submit(function () {
+    mpp.$.form.submit(function () {
         location.hash = $(this).find("input").val();
         mpp.searchModule(this);
 

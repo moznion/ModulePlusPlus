@@ -167,19 +167,38 @@ mpp.searchModule = function(form){
     mpp.prepareUsesList(form).done(mpp.done).fail(mpp.fail).always(mpp.always);
 };
 
-$(function () {
-    mpp.setCommonDom();
+/**
+ * ハッシュ値を元にモジュールを検索する
+ * @method searchModuleByHash
+ */
+mpp.searchModuleByHash = function(){
     var hash = location.hash.replace(/^#/, "");
 
     if(hash.length > 0){
         mpp.$.form.find("input").val(hash);
         mpp.searchModule(mpp.$.form);
     }
+};
 
-    mpp.$.form.submit(function () {
+$(function () {
+    mpp.setCommonDom();
+    mpp.searchModuleByHash();
+
+    //setEvent
+    mpp.$.form.on("submit",function () {
         location.hash = $(this).find("input").val();
         mpp.searchModule(this);
 
         return false;
+    });
+
+    $(window).on("hashchange", function(){
+        //valとhasが同じなら（つまりinputの内容を書き換えた事によるhashchangeなら）
+        //submitの処理内でsearchModuleByHash()が呼ばれているので、無視する。
+        var val = mpp.$.form.find("input").val();
+        var hash = location.hash.replace(/^#/, "");
+        if(val !== hash){
+            mpp.searchModuleByHash();
+        }
     });
 });

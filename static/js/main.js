@@ -7,12 +7,14 @@ var mpp = mpp || {};
 /**
  * Authorの画像等抽出用のベースURL
  * @property author_url
+ * @type String
  */
 mpp.author_url = 'https://metacpan.org/author/';
 
 /**
  * 読み込み時、Now Loading の末尾に出る . の追加処理用の interval ID
  * @property loadingNotifier
+ * @type Number
  */
 mpp.loadingNotifier = -1;
 

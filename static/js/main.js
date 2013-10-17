@@ -118,8 +118,10 @@ mpp.done = function(res){
  */
 mpp.fail = function(err){
     var paragraph = $("#MoreInfo");
-    paragraph = $("<p />").attr("id", "MoreInfo");
-    $("#UserList").after(paragraph);
+    if (paragraph.length == 0) {
+        paragraph = $("<p />").attr("id", "MoreInfo");
+        $("#serList").after(paragraph);
+    }
     if (err.status === 404) {
         paragraph.text(err.responseText);
     } else {

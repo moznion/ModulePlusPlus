@@ -1,0 +1,195 @@
+{
+    "project": {},
+    "files": {
+        "main.js": {
+            "name": "main.js",
+            "modules": {},
+            "classes": {
+                "mpp": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "mpp": {
+            "name": "mpp",
+            "shortname": "mpp",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "main.js",
+            "line": 1,
+            "description": "Module++モジュール"
+        }
+    },
+    "classitems": [
+        {
+            "file": "main.js",
+            "line": 7,
+            "description": "Authorの画像等抽出用のベースURL",
+            "itemtype": "property",
+            "name": "author_url",
+            "type": "String",
+            "class": "mpp"
+        },
+        {
+            "file": "main.js",
+            "line": 14,
+            "description": "読み込み時、Now Loading の末尾に出る . の追加処理用の interval ID",
+            "itemtype": "property",
+            "name": "loadingNotifier",
+            "type": "Number",
+            "class": "mpp"
+        },
+        {
+            "file": "main.js",
+            "line": 21,
+            "description": "主要DOM要素を参照するための変数。\nDOM読み込み後、mpp.setCommonDom()で定義する。\n常に$()経由だと重いので。",
+            "itemtype": "property",
+            "name": "$",
+            "type": "Object",
+            "class": "mpp"
+        },
+        {
+            "file": "main.js",
+            "line": 30,
+            "description": "DOM読み込み後に、各主要DOM要素を静的に参照するための構造体を作成する",
+            "itemtype": "method",
+            "name": "setCommonDom",
+            "class": "mpp"
+        },
+        {
+            "file": "main.js",
+            "line": 43,
+            "description": "検索開始時、画面表示をリセットする",
+            "itemtype": "method",
+            "name": "resetView",
+            "class": "mpp"
+        },
+        {
+            "file": "main.js",
+            "line": 54,
+            "description": "url中に記述されている画像サイズの指定を、sizeの値のものに変更する",
+            "itemtype": "method",
+            "name": "iconSizeModifyFilter",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "画像URL",
+                    "type": "String"
+                },
+                {
+                    "name": "size",
+                    "description": "画像サイズ",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "画像サイズ指定部分が変更されたicon画像URL",
+                "type": "String"
+            },
+            "class": "mpp"
+        },
+        {
+            "file": "main.js",
+            "line": 66,
+            "description": "ローディング時、\"nowLoading\"の文字の末尾に.を追加する",
+            "itemtype": "method",
+            "name": "noticeLoading",
+            "class": "mpp"
+        },
+        {
+            "file": "main.js",
+            "line": 74,
+            "description": "ajaxで指定のモジュールに＋＋してるユーザーを拾ってくる\n$.Deferred対応",
+            "mathod": "prepareUserList",
+            "params": [
+                {
+                    "name": "form",
+                    "description": "formタグのDOM",
+                    "type": "HTMLElement|jQuery object"
+                }
+            ],
+            "return": {
+                "description": "Deferredのpromise",
+                "type": "Promise"
+            },
+            "class": "mpp"
+        },
+        {
+            "file": "main.js",
+            "line": 97,
+            "description": "取得したユーザーリストを元に、HTMLを生成して表示する\nprepareUserListが成功した際に呼ばれるハンドラ",
+            "itemtype": "method",
+            "name": "done",
+            "params": [
+                {
+                    "name": "res",
+                    "description": "CSV形式のユーザー名リスト",
+                    "type": "Csv"
+                }
+            ],
+            "class": "mpp"
+        },
+        {
+            "file": "main.js",
+            "line": 133,
+            "description": "ajaxが失敗した時（モジュール名がなくて404が帰ってきた時）に\nその旨を表示する",
+            "itemtype": "method",
+            "name": "fail",
+            "params": [
+                {
+                    "name": "err",
+                    "description": "エラーオブジェクト",
+                    "type": "Error"
+                }
+            ],
+            "class": "mpp"
+        },
+        {
+            "file": "main.js",
+            "line": 148,
+            "description": "ajaxの後処理として、NowLoadingの.増加処理を止め、文字を消してる",
+            "itemtype": "method",
+            "name": "always",
+            "class": "mpp"
+        },
+        {
+            "file": "main.js",
+            "line": 158,
+            "description": "モジュール名から＋＋してるユーザー名を取得するための一般処理",
+            "itemtype": "method",
+            "name": "searchModule",
+            "params": [
+                {
+                    "name": "form",
+                    "description": "フォーム",
+                    "type": "HTMLElement|jQuery object"
+                }
+            ],
+            "class": "mpp"
+        },
+        {
+            "file": "main.js",
+            "line": 170,
+            "description": "ハッシュ値を元にモジュールを検索する",
+            "itemtype": "method",
+            "name": "searchModuleByHash",
+            "class": "mpp"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "unknown tag: mathod",
+            "line": " main.js:74"
+        },
+        {
+            "message": "Missing item type\najaxで指定のモジュールに＋＋してるユーザーを拾ってくる\n$.Deferred対応",
+            "line": " main.js:74"
+        }
+    ]
+}

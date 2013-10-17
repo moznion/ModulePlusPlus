@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>main.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title=""></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/mpp.html">mpp</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: main.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * Module++モジュール
+ * @class mpp
+ */
+var mpp = mpp || {};
+
+/**
+ * Authorの画像等抽出用のベースURL
+ * @property author_url
+ * @type String
+ */
+mpp.author_url = &#x27;https://metacpan.org/author/&#x27;;
+
+/**
+ * 読み込み時、Now Loading の末尾に出る . の追加処理用の interval ID
+ * @property loadingNotifier
+ * @type Number
+ */
+mpp.loadingNotifier = -1;
+
+/**
+ * 主要DOM要素を参照するための変数。
+ * DOM読み込み後、mpp.setCommonDom()で定義する。
+ * 常に$()経由だと重いので。
+ * @property $
+ * @type Object
+ */
+mpp.$ = {};
+
+/**
+ * DOM読み込み後に、各主要DOM要素を静的に参照するための構造体を作成する
+ * @method setCommonDom
+ */
+mpp.setCommonDom = function(){
+  $.extend(mpp.$, {
+    userList: $(&quot;#UserList&quot;),
+    moreInfo: $(&quot;#MoreInfo&quot;),
+    loading: $(&quot;#Loading&quot;),
+    form: $(&#x27;#ModuleNameForm&#x27;)
+  });
+}
+
+/**
+ * 検索開始時、画面表示をリセットする
+ * @method resetView
+ */
+mpp.resetView = function(){
+    mpp.$.userList.hide();
+    mpp.$.moreInfo.empty();
+    $(&#x27;.user&#x27;).remove();
+    mpp.$.loading.text(&#x27;Now Loading&#x27;).show();
+};
+
+/**
+ * url中に記述されている画像サイズの指定を、sizeの値のものに変更する
+ *
+ * @method iconSizeModifyFilter
+ * @param {string} url 画像URL
+ * @param {number} size 画像サイズ
+ * @return {string} 画像サイズ指定部分が変更されたicon画像URL
+ */
+mpp.iconSizeModifyFilter = function(url, size) {
+    return url.replace(/\b(s|size)=(\d+)\b/, &#x27;$1=&#x27; + size);
+};
+
+/**
+ * ローディング時、&quot;nowLoading&quot;の文字の末尾に.を追加する
+ * @method noticeLoading
+ */
+mpp.noticeLoading = function () {
+    mpp.$.loading.get(0).innerText += &quot;.&quot;;
+};
+
+/**
+ * ajaxで指定のモジュールに＋＋してるユーザーを拾ってくる
+ * $.Deferred対応
+ * @mathod prepareUserList
+ * @param {HTMLElement|jQuery object} form formタグのDOM
+ * @return {Promise} Deferredのpromise
+ */
+mpp.prepareUsesList = function (form) {
+    var dfd = $.Deferred();
+    $.ajax({
+        url:  &#x27;/find&#x27;,
+        type: &#x27;post&#x27;,
+        data: $(form).serialize(),
+        success: function (res) {
+            dfd.resolve(res);
+        },
+        error: function (err) {
+            dfd.reject(err);
+        }
+    });
+    return dfd.promise();
+};
+
+/**
+ * 取得したユーザーリストを元に、HTMLを生成して表示する
+ * prepareUserListが成功した際に呼ばれるハンドラ
+ * @method done
+ * @param {csv} res CSV形式のユーザー名リスト
+ */
+mpp.done = function(res){
+    var splitres = res.split(&#x27;,&#x27;);
+    var users = splitres.slice(0, splitres.length - 1);
+    for (var i = 0; i &lt; users.length; i += 2) {
+        var name = users[i];
+        var $name_as_link = $(&#x27;&lt;a/&gt;&#x27;).attr({&#x27;href&#x27;: mpp.author_url + name, &#x27;target&#x27;: &#x27;_blank&#x27;});
+        $name_as_link.append(name);
+
+        var icon_url = mpp.iconSizeModifyFilter(users[i + 1], 16);
+        var $icon = $(&#x27;&lt;img/&gt;&#x27;).attr({&#x27;src&#x27;: icon_url, &#x27;alt&#x27;: &#x27;icon&#x27;});
+        var $icon_as_link = $(&#x27;&lt;a/&gt;&#x27;).attr({&#x27;href&#x27;: mpp.author_url + name, &#x27;target&#x27;: &#x27;_blank&#x27;});
+        $icon_as_link.append($icon)
+
+        var $li = $(&#x27;&lt;li/&gt;&#x27;).addClass(&#x27;user&#x27;);
+        $li.append($icon_as_link);
+        $li.append($name_as_link);
+
+        mpp.$.userList.append($li);
+    }
+
+    if (users.length &gt; 0) {
+        mpp.$.userList.show();
+    }
+
+    var anonymouses = splitres[splitres.length - 1];
+    var paragraph = mpp.$.moreInfo;
+    paragraph.text(anonymouses);
+
+};
+
+/**
+ * ajaxが失敗した時（モジュール名がなくて404が帰ってきた時）に
+ * その旨を表示する
+ * @method fail
+ * @param {Error} err エラーオブジェクト
+ */
+mpp.fail = function(err){
+    var paragraph = mpp.$.moreInfo;
+    if (err.status === 404) {
+        paragraph.text(err.responseText);
+    } else {
+        paragraph.text(&#x27;Something wrong...&#x27;);
+    }
+};
+
+/**
+ * ajaxの後処理として、NowLoadingの.増加処理を止め、文字を消してる
+ * @method always
+ */
+mpp.always = function(){
+    clearInterval(mpp.loadingNotifier);
+    mpp.loadingNotifier = -1;
+    mpp.$.loading.hide();
+};
+
+/**
+ * モジュール名から＋＋してるユーザー名を取得するための一般処理
+ * @method searchModule
+ * @param {HTMLElement|jQuery object} form フォーム
+ */
+mpp.searchModule = function(form){
+    mpp.resetView();
+    mpp.loadingNotifier = setInterval(mpp.noticeLoading, 1000);
+
+    mpp.prepareUsesList(form).done(mpp.done).fail(mpp.fail).always(mpp.always);
+};
+
+/**
+ * ハッシュ値を元にモジュールを検索する
+ * @method searchModuleByHash
+ */
+mpp.searchModuleByHash = function(){
+    var hash = location.hash.replace(/^#/, &quot;&quot;);
+
+    if(hash.length &gt; 0){
+        mpp.$.form.find(&quot;input&quot;).val(hash);
+        mpp.searchModule(mpp.$.form);
+    }
+};
+
+$(function () {
+    mpp.setCommonDom();
+    mpp.searchModuleByHash();
+
+    //setEvent
+    mpp.$.form.on(&quot;submit&quot;,function () {
+        location.hash = $(this).find(&quot;input&quot;).val();
+        mpp.searchModule(this);
+
+        return false;
+    });
+
+    $(window).on(&quot;hashchange&quot;, function(){
+        //valとhasが同じなら（つまりinputの内容を書き換えた事によるhashchangeなら）
+        //submitの処理内でsearchModuleByHash()が呼ばれているので、無視する。
+        var val = mpp.$.form.find(&quot;input&quot;).val();
+        var hash = location.hash.replace(/^#/, &quot;&quot;);
+        if(val !== hash){
+            mpp.searchModuleByHash();
+        }
+    });
+});
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

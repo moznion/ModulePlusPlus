@@ -102,10 +102,6 @@ mpp.done = function(res){
 
     var anonymouses = splitres[splitres.length - 1];
     var paragraph = $("#MoreInfo");
-    if (paragraph.length == 0) {
-        paragraph = $("<p />").attr("id", "MoreInfo");
-        $("#UserList").after(paragraph);
-    }
     paragraph.text(anonymouses);
 
 };
@@ -118,10 +114,6 @@ mpp.done = function(res){
  */
 mpp.fail = function(err){
     var paragraph = $("#MoreInfo");
-    if (paragraph.length == 0) {
-        paragraph = $("<p />").attr("id", "MoreInfo");
-        $("#serList").after(paragraph);
-    }
     if (err.status === 404) {
         paragraph.text(err.responseText);
     } else {

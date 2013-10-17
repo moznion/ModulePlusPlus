@@ -134,7 +134,7 @@ mpp.done = function(res){
  * ajaxが失敗した時（モジュール名がなくて404が帰ってきた時）に
  * その旨を表示する
  * @method fail
- * @param {Error} エラーオブジェクト
+ * @param {Error} err エラーオブジェクト
  */
 mpp.fail = function(err){
     var paragraph = mpp.$.moreInfo;
@@ -158,7 +158,7 @@ mpp.always = function(){
 /**
  * モジュール名から＋＋してるユーザー名を取得するための一般処理
  * @method searchModule
- * @param {HTMLElement|jQuery object} フォーム
+ * @param {HTMLElement|jQuery object} form フォーム
  */
 mpp.searchModule = function(form){
     mpp.resetView();

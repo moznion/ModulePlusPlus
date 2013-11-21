@@ -103,6 +103,7 @@ __DATA__
             </form>
             <div id="Loading"></div>
             <ul id="UserList"></ul>
+            <p id="MoreInfo"></p>
         </section>
     </div>
     <footer>Powered by <a href="http://amon.64p.org">Amon2::Lite</a></footer>
